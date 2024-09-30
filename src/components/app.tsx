@@ -81,6 +81,7 @@ const Home = () => {
 type IdeaType = 'dish' | 'game' | 'decor' | 'costume';
 
 const AddIdea = () => {
+	const [haunted, setHaunted] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 	const generateUploadUrl = useMutation(api.ideas.generateUploadUrl);
 	const addIdea = useMutation(api.ideas.create);
@@ -97,15 +98,18 @@ const AddIdea = () => {
 		let imageSrc;
 		let imageAlt;
 
-		// const isHauntedUpload = Math.random() < 0.05;
-		const isHauntedUpload = false;
+		const isHauntedUpload = Math.random() < 0.333;
 
 		if (isHauntedUpload) {
+			setHaunted(true);
+
 			type = 'costume';
-			title = 'BOOM! HAUNTED!';
-			description = '';
-			imageSrc = '';
+			title = 'HAUNTED!';
+			description = "You know you're in trouble when this guy shows up.";
+			imageSrc = 'kg2dam7ev00t2pea0rvx9gn40d71rd47';
 			imageAlt = 'John Cena haunting someone in The Bear';
+
+			setTimeout(() => setHaunted(false), 5000);
 		} else {
 			const formData = new FormData(form);
 			const image = formData.get('imageSrc') as File;
@@ -144,76 +148,84 @@ const AddIdea = () => {
 
 	return (
 		<>
-			<h1>Add a Spooky Idea</h1>
+			{haunted ? (
+				<div className="haunted">
+					<h1>SpoooOOOooOoOoOooOOOOky!</h1>
+				</div>
+			) : (
+				<>
+					<h1>Add a Spooky Idea</h1>
 
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="type">
-					Idea Type
-					<select
-						id="type"
-						name="type"
-						defaultValue="select"
-						required
-						disabled={disabled}
-					>
-						<option disabled value="select">
-							-- choose an option --
-						</option>
+					<form onSubmit={handleSubmit}>
+						<label htmlFor="type">
+							Idea Type
+							<select
+								id="type"
+								name="type"
+								defaultValue="select"
+								required
+								disabled={disabled}
+							>
+								<option disabled value="select">
+									-- choose an option --
+								</option>
 
-						<option value="dish">Dish or Food Item</option>
-						<option value="game">Party Game</option>
-						<option value="decor">Decoration</option>
-						<option value="costume">Costume</option>
-					</select>
-				</label>
+								<option value="dish">Dish or Food Item</option>
+								<option value="game">Party Game</option>
+								<option value="decor">Decoration</option>
+								<option value="costume">Costume</option>
+							</select>
+						</label>
 
-				<label htmlFor="title">
-					Title
-					<input
-						type="text"
-						id="title"
-						name="title"
-						required
-						disabled={disabled}
-					/>
-				</label>
+						<label htmlFor="title">
+							Title
+							<input
+								type="text"
+								id="title"
+								name="title"
+								required
+								disabled={disabled}
+							/>
+						</label>
 
-				<label htmlFor="description">
-					Description
-					<textarea
-						id="description"
-						name="description"
-						required
-						disabled={disabled}
-					></textarea>
-				</label>
+						<label htmlFor="description">
+							Description
+							<textarea
+								id="description"
+								name="description"
+								required
+								disabled={disabled}
+							></textarea>
+						</label>
 
-				<label htmlFor="imageSrc">
-					Image
-					<input
-						type="file"
-						id="imageSrc"
-						name="imageSrc"
-						required
-						disabled={disabled}
-					/>
-				</label>
+						<label htmlFor="imageSrc">
+							Image
+							<input
+								type="file"
+								id="imageSrc"
+								name="imageSrc"
+								required
+								disabled={disabled}
+							/>
+						</label>
 
-				<label htmlFor="imageAlt">
-					Image Alt
-					<input
-						type="text"
-						id="imageAlt"
-						name="imageAlt"
-						required
-						disabled={disabled}
-					/>
-				</label>
+						<label htmlFor="imageAlt">
+							Image Alt
+							<input
+								type="text"
+								id="imageAlt"
+								name="imageAlt"
+								required
+								disabled={disabled}
+							/>
+						</label>
 
-				<button type="submit" disabled={disabled}>
-					{disabled ? 'Submitting...' : 'Add Idea'}
-				</button>
-			</form>
+						<button type="submit" disabled={disabled}>
+							{disabled ? 'Submitting...' : 'Add Idea'}
+						</button>
+					</form>
+				</>
+			)}
 		</>
 	);
 };

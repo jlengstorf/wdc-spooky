@@ -27,11 +27,11 @@ export const generateUploadUrl = mutation(async (ctx) => {
 export const create = mutation({
 	args: ideaSchema,
 	handler: async (ctx, args) => {
-		// let's get spoopy
 		let data = args;
 
 		const title = data.title.toLowerCase();
 
+		// let's get spoopy
 		if (title.includes('vampire')) {
 			data = {
 				description:
@@ -66,7 +66,7 @@ export const create = mutation({
 
 		await ctx.db.insert('ideas', {
 			...data,
-			isSpooky: false,
+			isSpooky: !!data.isSpooky,
 		});
 	},
 });
@@ -76,6 +76,10 @@ export const randomizeSpookiness = internalMutation(async (ctx) => {
 
 	const promises = ideas.map(async (idea) => {
 		const isSpooky = Math.random() < 0.01;
+
+		if (idea.title === 'HAUNTED!') {
+			return true;
+		}
 
 		await ctx.db.patch(idea._id, {
 			isSpooky,

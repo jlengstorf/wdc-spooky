@@ -158,3 +158,26 @@ form {
 		padding-inline: 1rem;
 	}
 }
+
+.haunted {
+	padding-block: 25dvb;
+	text-align: center;
+
+	h1 {
+		animation: 5s ease-in-out infinite alternate spin;
+	}
+}
+
+@keyframes spin {
+	0% {
+		rotate: 45deg;
+	}
+
+	50% {
+		scale: 1.4;
+	}
+
+	100% {
+		rotate: -45deg;
+	}
+}
