@@ -98,7 +98,7 @@ const AddIdea = () => {
 		let imageSrc;
 		let imageAlt;
 
-		const isHauntedUpload = Math.random() < 0.333;
+		const isHauntedUpload = false; // Math.random() < 0.333;
 
 		if (isHauntedUpload) {
 			setHaunted(true);
